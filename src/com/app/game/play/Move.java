@@ -3,6 +3,7 @@ package com.app.game.play;
 import com.app.game.components.board.Square;
 import com.app.game.components.pieces.Piece;
 import com.app.game.exception.InvalidMoveException;
+import com.app.game.exception.MoveErrorCode;
 
 public class Move implements Movable{
 
@@ -39,9 +40,12 @@ public class Move implements Movable{
 	    if (isValidMove){
 	    	
 	    	Piece movedPiece = start.getPiece();
+	    	start.setPiece(null);
 	    	capturedPiece = end.getPiece();
 	    	end.setPiece(movedPiece);
 	    }
+	    else
+	    	throw new InvalidMoveException(MoveErrorCode.ILLEGAL_MOVE.toString());
 		
 	    return capturedPiece;
 	}

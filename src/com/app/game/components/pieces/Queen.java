@@ -1,10 +1,12 @@
 package com.app.game.components.pieces;
 
+import com.app.game.constants.PIECE;
+
 public class Queen extends Piece{
 	
 	private static final int VALUE = 9;
 	private static final char NOTATION = 'Q';
-	private static final String NAME = "QUEEN";
+	private static final PIECE NAME = PIECE.QUEEN;
 
 
 	public Queen(int colour) {

@@ -50,6 +50,9 @@ public class Board {
 			for (int file = 1; file < FILE_SIZE; file++) 
 				if (squares[rank][file].getPiece() != null)
 					System.out.print(squares[rank][file].getPiece().getNotation() + "" + squares[rank][file].getPiece().getColNotation() + "\t");
+				else
+					if (file < FILE_SIZE - 1)
+						System.out.print("\t");
 			rankDecr --;
 			System.out.print("\n\n");	
 			if (rank == 1)

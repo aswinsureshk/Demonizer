@@ -49,5 +49,19 @@ public class Piece {
 	public void setPieceName(PIECE pieceName) {
 		this.pieceName = pieceName;
 	}
+	
+	@Override
+	public boolean equals(Object other){
+		
+		if (!(other instanceof Piece))
+			return false;
+		
+		Piece op = (Piece) other;
+		
+		if (this.getColour() == op.getColour() && this.getPieceName() == op.getPieceName())
+			return true;
+		
+		return false;
+	}
 	 
 }
