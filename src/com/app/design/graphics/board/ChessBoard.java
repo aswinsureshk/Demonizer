@@ -6,13 +6,14 @@ import javax.swing.*;
  
 public class ChessBoard extends JFrame implements MouseListener, MouseMotionListener {
 	  
-	JLayeredPane layeredPane;
+	  JLayeredPane layeredPane;
 	  JPanel chessBoard;
 	  JLabel chessPiece;
 	  int xAdjustment;
 	  int yAdjustment;
 	 
 	  public ChessBoard(){
+		 
 		  Dimension boardSize = new Dimension(600, 600);
 		 
 		  //  Use a Layered Pane for this this application

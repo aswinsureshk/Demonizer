@@ -12,9 +12,9 @@ public class Board {
 	
 	private static final int RANK_SIZE = 9;
 	private static final int FILE_SIZE = 9;
-	private Square squares[][];
+	private static Square squares[][];
 	
-	public void setup(){
+	public static void setup(){
 		
 		squares = new Square[RANK_SIZE][FILE_SIZE];
 		for (int rank = 1; rank < RANK_SIZE; rank++) 
@@ -42,7 +42,7 @@ public class Board {
 			}
 	}
 	
-	public void displayPosition(){
+	public static void displayPosition(){
 		
 		int rankDecr= 8;
 		for (int rank = RANK_SIZE-1; rank>0; rank--) {
@@ -61,6 +61,9 @@ public class Board {
 			System.out.print(rankIndex + "\t");
 		}
 	}
-	
-	
+
+	public static Square[][] getSquares() {
+		return squares;
+	}
+
 }

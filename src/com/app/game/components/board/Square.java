@@ -23,8 +23,11 @@ public class Square {
 	public void setRank(int row) {
 		this.rank = row;
 	}
-	public int getFile() {
+	public char getFile() {
 		return file;
+	}
+	public int getFileAsInt() {
+		return (int) (file - 'a') + 1;
 	}
 	public void setFile(int file) {
 		this.file = (char) (file - 1 + 'a');	

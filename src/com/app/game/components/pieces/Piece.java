@@ -1,12 +1,14 @@
 package com.app.game.components.pieces;
 
+import com.app.game.constants.PIECE;
+
 public class Piece {
 
 	private int colour; //1 for white, 0 for black
 	private int value;
 	private char notation;
 	private char colNotation; //+ for white, - for black
-	private String pieceName;
+	private PIECE pieceName;
 	
 	public int getColour() {
 		return colour;
@@ -40,11 +42,11 @@ public class Piece {
 		this.colNotation = colNotation;
 	}
 
-	public String getPieceName() {
+	public PIECE getPieceName() {
 		return pieceName;
 	}
 
-	public void setPieceName(String pieceName) {
+	public void setPieceName(PIECE pieceName) {
 		this.pieceName = pieceName;
 	}
 	 
