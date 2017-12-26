@@ -29,6 +29,10 @@ public class Piece {
 	public char getNotation() {
 		return notation;
 	}
+	
+	public char getPieceNotation() {
+		return notation;
+	}
 
 	public void setNotation(char notation) {
 		this.notation = notation;

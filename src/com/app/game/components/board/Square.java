@@ -11,6 +11,10 @@ public class Square {
 	
 	private Piece piece;
 	
+	public Square(){
+		
+	}
+	
 	public Square(int row, int file, int colour) {
 		this.rank = row;
 		this.file = (char) (file - 1 + 'a');

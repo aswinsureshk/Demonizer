@@ -15,5 +15,10 @@ public class King extends Piece{
 		setColNotation((colour==1)?'+':'-');
 		setPieceName(NAME);
 	}
-
+	
+	public static char getKingNotation(){
+		
+		return NOTATION;
+	}
+	
 }

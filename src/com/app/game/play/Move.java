@@ -7,13 +7,24 @@ import com.app.game.exception.MoveErrorCode;
 
 public class Move implements Movable{
 
+	private String move;
 	private Square start;
 	private Square end;
 	
-	public Move (Square start, Square end){
+	public Move (String move) throws InvalidMoveException{
 		
-		this.start = start;
-		this.end = end;
+		this.move = move;
+		Square[] moves = GameUtil.moveMapper(move);
+		this.start = moves[0];
+		this.end = moves[1];
+	}
+
+	public String getMove() {
+		return move;
+	}
+
+	public void setMove(String move) {
+		this.move = move;
 	}
 
 	public Square getStart() {
@@ -33,6 +44,9 @@ public class Move implements Movable{
 	public Piece move() throws InvalidMoveException{
 		
 		Piece pStart = start.getPiece();
+		
+		if (pStart == null)
+			throw new InvalidMoveException(MoveErrorCode.THERE_IS_NO_SUCH_PIECE_AT_START.toString());
 		
 	    boolean isValidMove = MoveEngine.isValidMove(start, end, pStart);
 	    Piece capturedPiece = null;

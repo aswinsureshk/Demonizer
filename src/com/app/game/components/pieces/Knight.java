@@ -15,5 +15,10 @@ public class Knight extends Piece{
 		setColNotation((colour==1)?'+':'-');
 		setPieceName(NAME);
 	}
+	
+	public static char getKnightNotation(){
+		
+		return NOTATION;
+	}
 
 }

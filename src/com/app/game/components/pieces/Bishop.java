@@ -16,5 +16,9 @@ public class Bishop extends Piece{
 		setColNotation((colour==1)?'+':'-');
 		setPieceName(NAME);
 	}
-
+	
+	public static char getBishopNotation(){
+		
+		return NOTATION;
+	}
 }

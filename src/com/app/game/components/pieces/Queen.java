@@ -8,13 +8,17 @@ public class Queen extends Piece{
 	private static final char NOTATION = 'Q';
 	private static final PIECE NAME = PIECE.QUEEN;
 
-
 	public Queen(int colour) {
 		setColour(colour);
 		setValue(VALUE);
 		setNotation(NOTATION);
 		setColNotation((colour==1)?'+':'-');
 		setPieceName(NAME);
+	}
+	
+	public static char getQueenNotation(){
+		
+		return NOTATION;
 	}
 
 }
