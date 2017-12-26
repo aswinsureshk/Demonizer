@@ -18,6 +18,12 @@ public class Move implements Movable{
 		this.start = moves[0];
 		this.end = moves[1];
 	}
+	
+	public Move (Square start, Square end) {
+		
+		this.start = start;
+		this.end = end;
+	}
 
 	public String getMove() {
 		return move;
