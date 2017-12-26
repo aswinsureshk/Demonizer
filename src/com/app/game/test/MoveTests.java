@@ -47,7 +47,7 @@ public class MoveTests extends TestCase{
 	@Test
 	public void test2PawnIllegalMove1() throws InvalidMoveException{
 		
-		String m = "a3b3";
+		String m = "a3a2";
 		Square[] square = GameUtil.moveMapper(m);
 		Square start = square[0];
 		Square end = square[1];
@@ -154,7 +154,7 @@ public class MoveTests extends TestCase{
 	@Test
 	public void test7KnightLegalMove() throws InvalidMoveException{
 		
-		String m = "Nc3a2";
+		String m = "Ne4c3";
 		Square[] square = GameUtil.moveMapper(m);
 		Square start = square[0];
 		Square end = square[1];
@@ -176,7 +176,7 @@ public class MoveTests extends TestCase{
 	@Test
 	public void test8KnightLegalMove() throws InvalidMoveException{
 		
-		String m = "Na2c3";
+		String m = "Nc3a2";
 		Square[] square = GameUtil.moveMapper(m);
 		Square start = square[0];
 		Square end = square[1];
@@ -198,7 +198,7 @@ public class MoveTests extends TestCase{
 	@Test
 	public void test9KnightLegalMove() throws InvalidMoveException{
 		
-		String m = "Nc3b5";
+		String m = "Na2c3";
 		Square[] square = GameUtil.moveMapper(m);
 		Square start = square[0];
 		Square end = square[1];
@@ -220,7 +220,7 @@ public class MoveTests extends TestCase{
 	@Test
 	public void testA10KnightLegalMove() throws InvalidMoveException{
 		
-		String m = "Nb5c3";
+		String m = "Nc3b5";
 		Square[] square = GameUtil.moveMapper(m);
 		Square start = square[0];
 		Square end = square[1];
@@ -242,7 +242,7 @@ public class MoveTests extends TestCase{
 	@Test
 	public void testA11KnightLegalMove() throws InvalidMoveException{
 		
-		String m = "Nc3d5";
+		String m = "Nb5c3";
 		Square[] square = GameUtil.moveMapper(m);
 		Square start = square[0];
 		Square end = square[1];
@@ -264,7 +264,7 @@ public class MoveTests extends TestCase{
 	@Test
 	public void testA12KnightLegalMove() throws InvalidMoveException{
 		
-		String m = "Nd5c3";
+		String m = "Nc3d5";
 		Square[] square = GameUtil.moveMapper(m);
 		Square start = square[0];
 		Square end = square[1];
@@ -286,7 +286,7 @@ public class MoveTests extends TestCase{
 	@Test
 	public void testA13KnightLegalMove() throws InvalidMoveException{
 		
-		String m = "Nc3a4";
+		String m = "Nd5c3";
 		Square[] square = GameUtil.moveMapper(m);
 		Square start = square[0];
 		Square end = square[1];
@@ -308,7 +308,7 @@ public class MoveTests extends TestCase{
 	@Test
 	public void testA14KnightLegalMove() throws InvalidMoveException{
 		
-		String m = "Na4c3";
+		String m = "Nc3a4";
 		Square[] square = GameUtil.moveMapper(m);
 		Square start = square[0];
 		Square end = square[1];
@@ -330,6 +330,28 @@ public class MoveTests extends TestCase{
 	@Test
 	public void testA15KnightLegalMove() throws InvalidMoveException{
 		
+		String m = "Na4c3";
+		Square[] square = GameUtil.moveMapper(m);
+		Square start = square[0];
+		Square end = square[1];
+		Piece movedPiece = start.getPiece();
+		Move move = new Move(m);
+		try {
+			
+			move.move();
+		} catch (InvalidMoveException e) {
+			
+			System.out.println(e.getMessage());
+			org.junit.Assert.fail();
+		}
+		
+		assertEquals(end.getPiece(), movedPiece);
+		assertNull(start.getPiece());
+	}
+	
+	@Test
+	public void testA16KnightLegalMove() throws InvalidMoveException{
+		
 		String m = "Nc3b1";
 		Square[] square = GameUtil.moveMapper(m);
 		Square start = square[0];
@@ -350,7 +372,7 @@ public class MoveTests extends TestCase{
 	}
 	
 	@Test
-	public void testA16KnightIllegalMove1() throws InvalidMoveException{
+	public void testA17KnightIllegalMove1() throws InvalidMoveException{
 		
 		String m = "Nb1b3";
 		Square[] square = GameUtil.moveMapper(m);
