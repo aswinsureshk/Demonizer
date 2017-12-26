@@ -55,19 +55,19 @@ public class MoveEngine {
 			case BISHOP :
 				
 				  
-				  if (!isAnyBlockingPieceInPath(start, end, PIECE.BISHOP) && end.getRank() - start.getRank() == end.getFileAsInt() - start.getFileAsInt() )
-					  isValid = true;
-				  break;
+				 if (Math.abs(end.getRank() - start.getRank()) == Math.abs(end.getFileAsInt() - start.getFileAsInt()) && !isAnyBlockingPieceInPath(start, end, PIECE.BISHOP))
+					 isValid = true;
+				 break;
 		    
 			case ROOK : 
 				
-				if (!isAnyBlockingPieceInPath(start, end, PIECE.BISHOP) && end.getRank() == start.getRank() || end.getFileAsInt() == start.getFileAsInt())
+				if (end.getRank() == start.getRank() || end.getFileAsInt() == start.getFileAsInt() && !isAnyBlockingPieceInPath(start, end, PIECE.ROOK))
 					isValid = true;
 				break;
 				
 			case QUEEN: 
 				
-				  if (!isAnyBlockingPieceInPath(start, end, PIECE.BISHOP) && end.getRank() - start.getRank() == end.getFileAsInt() - start.getFileAsInt() ||
+				  if (!isAnyBlockingPieceInPath(start, end, PIECE.QUEEN) && end.getRank() - start.getRank() == end.getFileAsInt() - start.getFileAsInt() ||
 				      end.getRank() == start.getRank() || end.getFileAsInt() == start.getFileAsInt() )
 					  isValid = true;
 				  break;
@@ -92,7 +92,7 @@ public class MoveEngine {
 	}
 	
 	
-	private static boolean isAnyBlockingPieceInPath(Square start, Square end, PIECE piece) {
+	private static boolean isAnyBlockingPieceInPath(Square start, Square end, PIECE piece) throws InvalidMoveException {
 		
 		boolean isAnyBlockingPieceInPath = false;
 		
@@ -100,14 +100,17 @@ public class MoveEngine {
 		
 			case BISHOP : 
 				
+				if (!(Math.abs(end.getRank() - start.getRank()) == Math.abs(end.getFileAsInt() - start.getFileAsInt())))
+					return true;
+				
 				int min_X = Math.min(start.getRank(), end.getRank());
 				int min_Y = Math.min(start.getFileAsInt(), end.getFileAsInt());
-				int max_X = Math.min(start.getRank(), end.getRank());
+				int max_X = Math.max(start.getRank(), end.getRank());
 				
 				int j = min_Y + 1;
 				for ( int i = min_X + 1; i<max_X; i++, j++){
 					
-					if (Board.getSquares()[i][j] != null){
+					if (Board.getSquares()[i][j].getPiece() != null){
 						isAnyBlockingPieceInPath = true;
 						break;
 					}
@@ -122,21 +125,24 @@ public class MoveEngine {
 					min = Math.min(start.getFileAsInt(), end.getFileAsInt());
 					max = Math.max(start.getFileAsInt(), end.getFileAsInt());
 				}
-				else{
+				else if (start.getFileAsInt() == end.getFileAsInt()){
 					min = Math.min(start.getRank(), end.getRank());
 					max = Math.max(start.getRank(), end.getRank());
 					RankEq = false;
 				}
+				else
+					return true;
+				
 				for (int i = min+1; i < max; i++) {
 					
 					if (RankEq){
-						if (Board.getSquares()[start.getRank()][i] != null ){
+						if (Board.getSquares()[start.getRank()][i].getPiece() != null ){
 							isAnyBlockingPieceInPath = true;
 							break;
 						}
 					}
 					else{
-						if (Board.getSquares()[i][start.getFileAsInt()] != null){
+						if (Board.getSquares()[i][start.getFileAsInt()].getPiece() != null){
 							isAnyBlockingPieceInPath = true;
 							break;
 						}
@@ -146,8 +152,8 @@ public class MoveEngine {
 				
 			case QUEEN :
 				
-				 if (!isAnyBlockingPieceInPath(start, end, PIECE.BISHOP) && 
-						 !isAnyBlockingPieceInPath(start, end, PIECE.ROOK))
+				 if (isAnyBlockingPieceInPath(start, end, PIECE.BISHOP) && 
+						 isAnyBlockingPieceInPath(start, end, PIECE.ROOK))
 					 isAnyBlockingPieceInPath = true;
 				 
 				 break;
@@ -156,6 +162,9 @@ public class MoveEngine {
 				break;
 		
 		}
+		
+		if (isAnyBlockingPieceInPath)
+			throw new InvalidMoveException(MoveErrorCode.THERE_IS_A_BLOCKING_PIECE.toString());
 		
 		return isAnyBlockingPieceInPath;
 	}
