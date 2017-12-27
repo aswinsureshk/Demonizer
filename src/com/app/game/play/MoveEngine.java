@@ -30,9 +30,13 @@ public class MoveEngine {
 						if (piece.getColour() == 1){
 							if (start.getRank()+1 == end.getRank())
 								isValid = true;
+							else if (start.getRank() == 2 && end.getRank() == 4 && Board.getSquares()[3][start.getFileAsInt()].getPiece() == null)
+								isValid = true;
 						}
 						else{
 							if (start.getRank()-1 == end.getRank())
+								isValid = true;
+							else if (start.getRank() == 7 && end.getRank() == 5 && Board.getSquares()[6][start.getFileAsInt()].getPiece() == null)
 								isValid = true;
 						}
 					}
@@ -103,14 +107,20 @@ public class MoveEngine {
 				if (!(Math.abs(end.getRank() - start.getRank()) == Math.abs(end.getFileAsInt() - start.getFileAsInt())))
 					return true;
 				
-				int min_X = Math.min(start.getRank(), end.getRank());
-				int min_Y = Math.min(start.getFileAsInt(), end.getFileAsInt());
-				int max_X = Math.max(start.getRank(), end.getRank());
+				int start_X = start.getRank();
+				int end_X   = end.getRank();
+				int start_Y = start.getFileAsInt();
+				int end_Y   = end.getFileAsInt();
 				
-				int j = min_Y + 1;
-				for ( int i = min_X + 1; i<max_X; i++, j++){
+				boolean shouldIncr_X = start_X < end_X;
+				boolean shouldIncr_Y = start_Y < end_Y;
+				
+				int r = shouldIncr_X ? start_X + 1 : start_X - 1;
+				int c = shouldIncr_Y ? start_Y + 1 : start_Y - 1;
+				
+				for ( ; shouldIncr_X ? ( r < end_X) : ( r > end_X); r = shouldIncr_X ? r+1 : r-1, c = shouldIncr_Y ? c+1 : c-1){
 					
-					if (Board.getSquares()[i][j].getPiece() != null){
+					if (Board.getSquares()[r][c].getPiece() != null){
 						isAnyBlockingPieceInPath = true;
 						break;
 					}
