@@ -2,7 +2,9 @@ package com.app.game.play;
 
 import com.app.game.components.board.Board;
 import com.app.game.components.board.Square;
+import com.app.game.components.pieces.Bishop;
 import com.app.game.components.pieces.Piece;
+import com.app.game.components.pieces.Rook;
 import com.app.game.constants.PIECE;
 import com.app.game.exception.InvalidMoveException;
 import com.app.game.exception.MoveErrorCode;
@@ -65,14 +67,19 @@ public class MoveEngine {
 		    
 			case ROOK : 
 				
-				if (end.getRank() == start.getRank() || end.getFileAsInt() == start.getFileAsInt() && !isAnyBlockingPieceInPath(start, end, PIECE.ROOK))
+				if ( ( (end.getRank() == start.getRank() && end.getFileAsInt() != start.getFileAsInt()) 
+						|| 
+					   (end.getFileAsInt() == start.getFileAsInt() && end.getRank() != start.getRank()) 
+					  )
+					  && !isAnyBlockingPieceInPath(start, end, PIECE.ROOK)
+					)
 					isValid = true;
+				
 				break;
 				
 			case QUEEN: 
 				
-				  if (!isAnyBlockingPieceInPath(start, end, PIECE.QUEEN) && end.getRank() - start.getRank() == end.getFileAsInt() - start.getFileAsInt() ||
-				      end.getRank() == start.getRank() || end.getFileAsInt() == start.getFileAsInt() )
+				  if (isValidMove(start, end, new Rook(piece.getColour())) || isValidMove(start, end, new Bishop(piece.getColour())) )
 					  isValid = true;
 				  break;
 			
