@@ -34,6 +34,7 @@ public class ChessBoard extends JFrame implements MouseListener, MouseMotionList
 	  private Square start;
 	  private Square end;	
 	  private Move move;
+	  private MouseEvent cached_InitialEvent;
 	 
 	  public ChessBoard(){
 		 
@@ -100,6 +101,7 @@ public class ChessBoard extends JFrame implements MouseListener, MouseMotionList
 	 
 	  public void mousePressed(MouseEvent e){
 		  
+		  cached_InitialEvent = null;
 		  chessPiece = null;
 		  Component c =  chessBoard.findComponentAt(e.getX(), e.getY());
 		 
@@ -117,6 +119,7 @@ public class ChessBoard extends JFrame implements MouseListener, MouseMotionList
 		  int row = 8 - Math.round(e.getY() / 75); 
 		  int col = Math.round(e.getX() / 75) + 1;
 		  start = Board.getSquares()[row][col];
+		  cached_InitialEvent = e;
 	  }
 	 
 	  //Move the chess piece around
@@ -135,15 +138,17 @@ public class ChessBoard extends JFrame implements MouseListener, MouseMotionList
 		 
 		  chessPiece.setVisible(false);
 		  Component c =  chessBoard.findComponentAt(e.getX(), e.getY());
-		 
+		  JLabel captured = null;
+		  
 		  if (c instanceof JLabel){
-		  Container parent = c.getParent();
-		  parent.remove(0);
-		  parent.add( chessPiece );
+			  Container parent = c.getParent();
+			  captured = (JLabel) parent.getComponent(0);
+			  parent.remove(0);
+			  parent.add( chessPiece );
 		  }
 		  else {
-		  Container parent = (Container)c;
-		  parent.add( chessPiece );
+			  Container parent = (Container)c;
+			  parent.add( chessPiece );
 		  }
 		 
 		  chessPiece.setVisible(true);
@@ -157,7 +162,27 @@ public class ChessBoard extends JFrame implements MouseListener, MouseMotionList
 			  move.move();
 		  
 		  } catch (InvalidMoveException e1) {
-				
+			  
+			  //set back the piece to start
+			  if (cached_InitialEvent != null){
+					
+				     chessPiece.setLocation(cached_InitialEvent.getX() + xAdjustment, cached_InitialEvent.getY() + yAdjustment);
+					 chessPiece.setVisible(false);
+					 c = chessBoard.findComponentAt(cached_InitialEvent.getX(), cached_InitialEvent.getY());
+				     Container parent = (Container)c;
+				     parent.add( chessPiece );
+					 chessPiece.setVisible(true);
+					
+					 if (captured != null){
+						
+						 c = chessBoard.findComponentAt(e.getX(), e.getY());
+						 parent = (Container)c;
+						 parent.add( captured );
+						 chessPiece.setVisible(true);
+					 }
+					 
+			  }
+			  cached_InitialEvent = null;
 			  System.err.println(e1.getMessage());
 		  }
 		  Board.displayPosition();
