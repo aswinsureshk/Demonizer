@@ -28,7 +28,7 @@ public class MoveEngine {
 		
 			case PAWN : 
 				
-					if (start.getFileAsInt() == end.getFileAsInt()){
+					if (start.getFileAsInt() == end.getFileAsInt() && end.getPiece() == null){
 						if (piece.getColour() == 1){
 							if (start.getRank()+1 == end.getRank())
 								isValid = true;
@@ -42,6 +42,17 @@ public class MoveEngine {
 								isValid = true;
 						}
 					}
+					else if (end.getPiece() != null && (end.getFileAsInt() == start.getFileAsInt()+1 || end.getFileAsInt() == start.getFileAsInt()-1)){
+						if (piece.getColour() == 1){
+							if (start.getRank()+1 == end.getRank())
+								isValid = true;
+						}
+						else{
+							if (start.getRank()-1 == end.getRank())
+								isValid = true;
+						}
+					}
+						
 					break;
 		   
 			case KNIGHT : 
