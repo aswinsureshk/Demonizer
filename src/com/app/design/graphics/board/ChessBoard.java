@@ -17,9 +17,11 @@ import javax.swing.JLabel;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 
+import com.app.game.cache.GameCache;
 import com.app.game.components.board.Board;
 import com.app.game.components.board.Square;
 import com.app.game.exception.InvalidMoveException;
+import com.app.game.exception.MoveErrorCode;
 import com.app.game.play.Move;
  
 public class ChessBoard extends JFrame implements MouseListener, MouseMotionListener {
@@ -35,10 +37,14 @@ public class ChessBoard extends JFrame implements MouseListener, MouseMotionList
 	  private Square end;	
 	  private Move move;
 	  private MouseEvent cached_InitialEvent;
+	  private GameCache<Object> gameCache;
 	 
 	  public ChessBoard(){
 		 
 		  Board.setup();
+		  
+		  gameCache = new GameCache<Object>();
+		  gameCache.addSingleElementToCacheList("PlayerHistory", 'B');
 		  Dimension boardSize = new Dimension(600, 600);
 		 
 		  //  Use a Layered Pane for this this application
@@ -134,8 +140,30 @@ public class ChessBoard extends JFrame implements MouseListener, MouseMotionList
 		 
 	   public void mouseReleased(MouseEvent e) {
 		  
+		  char playedColour = (start.getPiece().getColour() == 1)? 'W' : 'B';
+		  char oppsitePlayedColour = (start.getPiece().getColour() == 1)? 'B' : 'W';
+		  
 		  if(chessPiece == null) return;
-		 
+		  
+		  if (gameCache.isElementInCache("PlayerHistory", oppsitePlayedColour)){
+				  
+			      gameCache.clearEntryFromCache("PlayerHistory");
+				  gameCache.addSingleElementToCacheList("PlayerHistory", playedColour);
+		  }
+		  else {
+			     Component c =  chessBoard.findComponentAt(e.getX(), e.getY());
+			     chessPiece.setLocation(cached_InitialEvent.getX() + xAdjustment, cached_InitialEvent.getY() + yAdjustment);
+				 chessPiece.setVisible(false);
+				 c = chessBoard.findComponentAt(cached_InitialEvent.getX(), cached_InitialEvent.getY());
+			     Container parent = (Container)c;
+			     parent.add( chessPiece );
+				 chessPiece.setVisible(true);
+				 cached_InitialEvent = null;
+				 System.err.println(new InvalidMoveException(oppsitePlayedColour == 'W' ? 
+						 			MoveErrorCode.WHITE_TO_PLAY.toString() : MoveErrorCode.BLACK_TO_PLAY.toString()).getMessage() + "\n\n\n");
+			     return;
+		  }
+			  
 		  chessPiece.setVisible(false);
 		  Component c =  chessBoard.findComponentAt(e.getX(), e.getY());
 		  JLabel captured = null;
