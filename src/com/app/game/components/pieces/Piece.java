@@ -2,7 +2,7 @@ package com.app.game.components.pieces;
 
 import com.app.game.constants.PIECE;
 
-public class Piece {
+public abstract class Piece {
 
 	private int colour; //1 for white, 0 for black
 	private int value;
